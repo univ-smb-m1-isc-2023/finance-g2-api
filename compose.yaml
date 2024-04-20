@@ -10,7 +10,7 @@ services:
     links:
       - postgres
     environment:
-      POSTGRES_URI: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:7687/finance-g2
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finance-g2
 
   postgres:
     image: postgres:14-alpine
