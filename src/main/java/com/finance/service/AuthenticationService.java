@@ -34,7 +34,18 @@ public class AuthenticationService {
                 .setEmail(input.getEmail())
                 .setPassword(passwordEncoder.encode(input.getPassword()));
 
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getEmail(),
+                        input.getPassword()
+                )
+        );
+
+        return userRepository.findByEmail(input.getEmail())
+                .orElseThrow();
+
     }
 
     public User authenticate(LoginUserDto input) {
