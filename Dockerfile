@@ -1,6 +1,7 @@
-FROM eclipse-temurin:17
-VOLUME /tmp
-COPY target/*.jar app.jar
+FROM eclipse-temurin:21-alpine
+
+COPY ./target/finance-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+CMD ["sh","-c","java -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=70  -XshowSettings $JAVA_OPTS -jar finance-0.0.1-SNAPSHOT.jar"]
