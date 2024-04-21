@@ -49,7 +49,6 @@ public class TransactionService {
 
         List<Transaction> transactions = transactionRepository.findByAccount(acc);
 
-
         if (transactions == null) {
             return new ArrayList<Transaction>();
         }
@@ -70,7 +69,7 @@ public class TransactionService {
         LocalDate date = LocalDate.parse(transaction.getDate(), formatter);
 
         trans.setTransactionDate(date);        
-
+        trans.setType(transaction.getType());
 
         return transactionRepository.save(trans);
     }
@@ -81,12 +80,13 @@ public class TransactionService {
         Sheet sheet = workbook.getSheetAt(0);
         Account account = accountRepository.findById(accountId).orElse(null);
         for (Row row : sheet) {
-            // Assuming first column is date, second is amount
+
             String name = row.getCell(0).getStringCellValue();
             LocalDate date = row.getCell(1).getLocalDateTimeCellValue().toLocalDate();
             BigDecimal amount = BigDecimal.valueOf(row.getCell(2).getNumericCellValue());
-            
-            transactions.add(new Transaction(name ,amount, date,account));
+            String type = row.getCell(3).getStringCellValue();
+
+            transactions.add(new Transaction(name ,amount, date,account, type));
         }
         transactionRepository.saveAll(transactions);
         workbook.close();

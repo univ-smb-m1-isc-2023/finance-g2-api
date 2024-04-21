@@ -32,14 +32,18 @@ public class Transaction {
     @Nullable
     private Tag tag;
 
+    @Column(name = "type")
+    private String type;
+    
+
     public Transaction() {}
 
-    public Transaction(String name, BigDecimal amount, LocalDate transactionDate, Account account) {
+    public Transaction(String name, BigDecimal amount, LocalDate transactionDate, Account account, String type) {
         this.name = name;
         this.amount = amount;
         this.transactionDate = transactionDate;
         this.account = account;
-
+        this.type = type;
     }
 
     // Getters et Setters
@@ -58,6 +62,14 @@ public class Transaction {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Account getAccount() {

@@ -12,12 +12,23 @@ public class TransactionCreateDto {
 
     private Integer tag;
 
+    private String type;
+
     public Integer getAccount() {
         return account;
     }
 
     public Integer getTag() {
         return tag;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public TransactionCreateDto setType(String type) {
+        this.type = type;
+        return this;
     }
 
     public TransactionCreateDto setTag(Integer tag) {
