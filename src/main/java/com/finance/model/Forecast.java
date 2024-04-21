@@ -20,10 +20,10 @@ public class Forecast {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @Column(name = "month", nullable = false)
+    @Column(name = "months", nullable = false)
     private int month;
 
-    @Column(name = "year", nullable = false)
+    @Column(name = "years", nullable = false)
     private int year;
 
     @Column(name = "amount", nullable = false)
