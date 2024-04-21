@@ -1,7 +1,9 @@
 package com.finance.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -16,26 +18,46 @@ public class Transaction {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "amount", precision = 10, scale = 2)
     private BigDecimal amount;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "transaction_date")
-    private Date transactionDate;
+    private LocalDate transactionDate;
 
     @ManyToOne
     @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    @Nullable
     private Tag tag;
 
     public Transaction() {}
+
+    public Transaction(String name, BigDecimal amount, LocalDate transactionDate, Account account) {
+        this.name = name;
+        this.amount = amount;
+        this.transactionDate = transactionDate;
+        this.account = account;
+
+    }
 
     // Getters et Setters
     public Long getId() {
         return id;
     }
 
+    
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Account getAccount() {
@@ -54,11 +76,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Date getTransactionDate() {
+    public LocalDate getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
     }
 
