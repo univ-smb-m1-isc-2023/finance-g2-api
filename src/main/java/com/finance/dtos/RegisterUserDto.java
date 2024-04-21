@@ -34,8 +34,4 @@ public class RegisterUserDto {
         this.fullName = fullName;
         return this;
     }
-
-
-    
-    // getters and setters here...
 }
