@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.finance.dtos.TagCreateDto;
 import com.finance.dtos.TransactionCreateDto;
-import com.finance.model.Tag;
 import com.finance.model.Transaction;
-import com.finance.service.TagService;
 import com.finance.service.TransactionService;
 
 @RequestMapping("/transaction")
