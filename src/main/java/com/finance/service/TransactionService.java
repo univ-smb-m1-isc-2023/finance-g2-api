@@ -49,6 +49,11 @@ public class TransactionService {
 
         List<Transaction> transactions = transactionRepository.findByAccount(acc);
 
+
+        if (transactions == null) {
+            return new ArrayList<Transaction>();
+        }
+
         return transactions;
     }
 

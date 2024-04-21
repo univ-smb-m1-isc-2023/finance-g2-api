@@ -32,6 +32,10 @@ public class AccountService {
     public List<Account> getAccounts(User user) {
         List<Account> accounts = accountRepository.findByUser(user);
 
+        if (accounts == null) {
+            return new ArrayList<>();
+        }
+
         return accounts;
     }
 

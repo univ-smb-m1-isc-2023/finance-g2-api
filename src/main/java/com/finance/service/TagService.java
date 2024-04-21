@@ -37,6 +37,11 @@ public class TagService {
 
         List<Tag> tags = tagRepository.findByAccount(acc);
 
+        // return empty list if no tags found
+        if (tags == null) {
+            return new ArrayList<Tag>();
+        }
+
         return tags;
     }
 
