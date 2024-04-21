@@ -31,12 +31,11 @@ public class TagService {
     }
 
     public List<Tag> getTags(Integer account) {
-        List<Tag> tags = new ArrayList<>();
 
         Account acc = accountRepository.findById(account).orElse(null);
 
 
-        tagRepository.findByAccount(acc).ifPresent(tags::add);
+        List<Tag> tags = tagRepository.findByAccount(acc);
 
         return tags;
     }

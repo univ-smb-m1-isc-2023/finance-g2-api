@@ -30,9 +30,7 @@ public class AccountService {
     }
 
     public List<Account> getAccounts(User user) {
-        List<Account> accounts = new ArrayList<>();
-
-        accountRepository.findByUser(user).ifPresent(accounts::add);
+        List<Account> accounts = accountRepository.findByUser(user);
 
         return accounts;
     }
