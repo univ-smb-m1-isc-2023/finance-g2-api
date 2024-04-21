@@ -1,6 +1,8 @@
 package com.finance.model;
 
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "forecasts")
@@ -14,17 +16,21 @@ public class Forecast {
     @JoinColumn(name = "tag_id", nullable = false)
     private Tag tag;
 
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+
     @Column(name = "month", nullable = false)
     private int month;
 
     @Column(name = "year", nullable = false)
     private int year;
 
-    @Column(name = "forecast_provision", nullable = false, scale = 2)
-    private double forecastProvision;
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
 
-    @Column(name = "forecast_spending", nullable = false, scale = 2)
-    private double forecastSpending;
+    @Column(name = "type", nullable = false)
+    private String type;
 
     public Forecast() {}
 
@@ -61,20 +67,29 @@ public class Forecast {
         this.year = year;
     }
 
-    public double getForecastProvision() {
-        return forecastProvision;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setForecastProvision(double forecastProvision) {
-        this.forecastProvision = forecastProvision;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public double getForecastSpending() {
-        return forecastSpending;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setForecastSpending(double forecastSpending) {
-        this.forecastSpending = forecastSpending;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }
 
