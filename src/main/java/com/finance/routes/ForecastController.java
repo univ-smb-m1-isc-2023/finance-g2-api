@@ -1,5 +1,6 @@
 package com.finance.routes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finance.dtos.ForecastCreateDto;
+import com.finance.dtos.ForecastMultipleCreateDto;
 import com.finance.model.Forecast;
 import com.finance.service.ForecastService;
 
@@ -40,6 +42,15 @@ public class ForecastController {
         Forecast createdTransaction = forecastService.createTransaction(tag);
 
         return ResponseEntity.ok(createdTransaction);
+    }
+
+    @PostMapping("/createMultiple")
+    public ResponseEntity<List<Forecast>> createMultiple(@RequestBody ForecastMultipleCreateDto forecast) {
+        Iterable<Forecast> createdTransactions = forecastService.createForecastMultipleYear(forecast);
+
+            List<Forecast> result = new ArrayList<Forecast>();
+            createdTransactions.forEach(result::add);
+        return ResponseEntity.ok(result);
     }
     
 }

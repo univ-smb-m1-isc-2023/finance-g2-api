@@ -13,4 +13,5 @@ import com.finance.model.User;
 public interface AccountRepository extends CrudRepository<Account, Integer> {
     Optional<Account> findById(Integer id);
     List<Account> findByUser(User user);
+    List<Account> findByUserId(Integer userId);
 }

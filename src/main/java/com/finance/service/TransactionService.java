@@ -74,6 +74,18 @@ public class TransactionService {
         return transactionRepository.save(trans);
     }
 
+    public void deleteTransaction(Integer id) {
+        transactionRepository.deleteById(id);
+    }
+
+    public Transaction setTag(Integer transactionId, Integer tagId) {
+        Transaction transaction = transactionRepository.findById(transactionId).orElse(null);
+        Tag tag = tagRepository.findById(tagId).orElse(null);
+
+        transaction.setTag(tag);
+        return transactionRepository.save(transaction);
+    }
+
     public void importTransactionsFromFile(MultipartFile file, Integer accountId) throws IOException {
         List<Transaction> transactions = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(file.getInputStream());
