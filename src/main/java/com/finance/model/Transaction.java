@@ -43,6 +43,7 @@ public class Transaction {
         this.transactionDate = transactionDate;
         this.account = account;
         this.type = type;
+        this.tag  = null;
     }
 
     // Getters et Setters
@@ -96,11 +97,11 @@ public class Transaction {
     }
 
     public Tag getTag() {
-        return tag;
+        return tag == null ? new Tag() : tag;
     }
 
     public Long getTagId() {
-        return tag.getId();
+        return tag != null ? tag.getId() : null;
     }
 
     public void setTag(Tag tag) {

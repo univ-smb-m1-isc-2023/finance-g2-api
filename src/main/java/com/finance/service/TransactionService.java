@@ -94,11 +94,12 @@ public class TransactionService {
         for (Row row : sheet) {
 
             String name = row.getCell(0).getStringCellValue();
-            LocalDate date = row.getCell(1).getLocalDateTimeCellValue().toLocalDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(row.getCell(1).getStringCellValue(), formatter);
             BigDecimal amount = BigDecimal.valueOf(row.getCell(2).getNumericCellValue());
             String type = row.getCell(3).getStringCellValue();
-
-            transactions.add(new Transaction(name ,amount, date,account, type));
+            System.out.println("type: " + type);
+            transactions.add(new Transaction(name ,amount,date ,account, type));
         }
         transactionRepository.saveAll(transactions);
         workbook.close();

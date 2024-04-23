@@ -71,6 +71,9 @@ public class ForecastService {
 
     public Iterable<Forecast> createForecastMultipleYear(ForecastMultipleCreateDto forecast) {
 
+        System.out.println("forecastmultiple");
+        System.out.println(forecast.getNbOfYears());
+
         List<Forecast> forecasts = new ArrayList<Forecast>();
 
         for (int i = 0; i < forecast.getNbOfYears().intValueExact(); i++) {

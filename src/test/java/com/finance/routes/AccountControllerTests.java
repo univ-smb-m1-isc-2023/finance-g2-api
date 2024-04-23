@@ -6,21 +6,29 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.finance.service.AccountService;
+import com.finance.service.JwtService;
 import com.finance.model.Account;
 import com.finance.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finance.config.ApplicationConfiguration;
 import com.finance.dtos.AccountCreateDto;
 
 import java.math.BigDecimal;
@@ -42,13 +50,16 @@ public class AccountControllerTests {
 
     @MockBean
     private SecurityContext securityContext;
-
+/
     @BeforeEach
     void setUp() {
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-    }
+        when(jwtService.extractUsername(anyString())).thenReturn("user@example.com");
+        when(jwtService.isTokenValid(anyString(), any())).thenReturn(true);
 
+        UserDetails userDetails = new User("user@example.com", "password", AuthorityUtils.createAuthorityList("ROLE_USER"));
+        when(userDetailsService.loadUserByUsername(anyString())).thenReturn(userDetails);
+    }
+/* 
     @Test
     @WithMockUser
     void authenticatedUserAccounts() throws Exception {
@@ -92,19 +103,35 @@ public class AccountControllerTests {
     @Test
     @WithMockUser
     void createAccount() throws Exception {
-        AccountCreateDto newAccount = new AccountCreateDto(); // Set properties as necessary
+        // Create a new AccountCreateDto object and set its properties
+        AccountCreateDto newAccount = new AccountCreateDto()
+                .setUser(1) // Assuming a user ID for testing
+                .setAccountName("Savings Account")
+                .setBalance(new BigDecimal("1000.00"));
+
+        // Create the Account object that would be returned by the service
         Account savedAccount = new Account();
         savedAccount.setId(1L);
-        savedAccount.setBalance(new BigDecimal((1000.00)));
+        savedAccount.setBalance(new BigDecimal("1000.00"));
+        savedAccount.setAccountName("Savings Account");
+        // Assuming Account class has setter methods similar to AccountCreateDto
 
+        // Mock the service call to return the created account
         when(accountService.createAccount(any(AccountCreateDto.class))).thenReturn(savedAccount);
 
+        // Convert the AccountCreateDto to JSON string for the request payload
+        ObjectMapper objectMapper = new ObjectMapper();
+        String newAccountJson = objectMapper.writeValueAsString(newAccount);
+
+        // Perform the POST request, passing the JSON payload
         mockMvc.perform(post("/account/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"balance\": 1000.00}") // Adjust JSON content to match AccountCreateDto structure
-                )
+                .content(newAccountJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.balance").value(1000.00));
-    }
-}*/
+                .andExpect(jsonPath("$.balance").value(1000.00))
+                .andExpect(jsonPath("$.accountName").value("Savings Account"));
+    } 
+
+
+} */
