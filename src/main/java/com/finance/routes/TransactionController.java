@@ -44,13 +44,13 @@ public class TransactionController {
     }
 
     @PostMapping("/tag")
-    public ResponseEntity<Transaction> tagTransaction(@RequestParam("transaction") Integer transactionId, @RequestParam("tag") Integer tagId) {
+    public ResponseEntity<Transaction> tagTransaction(@RequestBody Integer transactionId, @RequestBody Integer tagId) {
         Transaction taggedTransaction = transactionService.setTag(transactionId, tagId);
 
         return ResponseEntity.ok(taggedTransaction);
     }
 
-    
+
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("accountId") Integer accountId) {
