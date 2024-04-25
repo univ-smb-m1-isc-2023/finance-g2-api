@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public class TransactionCreateDto {
 
+    private String name;
+
     private Integer account;
 
     private BigDecimal amount;
@@ -13,6 +15,26 @@ public class TransactionCreateDto {
     private Integer tag;
 
     private String type;
+
+    public TransactionCreateDto(){}
+
+    public TransactionCreateDto(String name,Integer account, BigDecimal amount, String date, Integer tag, String type) {
+        this.name = name;
+        this.account = account;
+        this.amount = amount;
+        this.date = date;
+        this.tag = tag;
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public TransactionCreateDto setName(String name) {
+        this.name = name;
+        return this;
+    }
 
     public Integer getAccount() {
         return account;

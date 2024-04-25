@@ -37,13 +37,21 @@ public class Transaction {
 
     public Transaction() {}
 
+    public Transaction(String name,Account account, BigDecimal amount, LocalDate date, Tag tag, String type) {
+        this.name = name;
+        this.account = account;
+        this.amount = amount;
+        this.transactionDate = date;
+        this.tag = tag;
+        this.type = type;
+    }
+
     public Transaction(String name, BigDecimal amount, LocalDate transactionDate, Account account, String type) {
         this.name = name;
         this.amount = amount;
         this.transactionDate = transactionDate;
         this.account = account;
         this.type = type;
-        this.tag  = null;
     }
 
     // Getters et Setters
