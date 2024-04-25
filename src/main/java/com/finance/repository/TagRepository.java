@@ -11,5 +11,7 @@ import java.util.Optional;
 @Repository
 public interface TagRepository extends CrudRepository<Tag, Integer> {
     Optional<Tag> findById(Integer id);
+    Optional<Tag> findById(Long id);
     List<Tag> findByAccount(Account account);
+    List<Tag> findByAccountId(Long accountId);
 }

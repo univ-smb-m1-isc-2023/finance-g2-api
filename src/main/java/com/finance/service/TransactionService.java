@@ -74,6 +74,25 @@ public class TransactionService {
         return transactionRepository.save(trans);
     }
 
+    public void deleteTransaction(Integer id) {
+        transactionRepository.deleteById(id);
+    }
+
+    public List<Transaction> getTransactionFromTag(Long tagId) {
+        Tag tag = tagRepository.findById(tagId).orElse(null);
+        List<Transaction> transactions = transactionRepository.findByTag(tag);
+
+        return transactions;
+    }
+
+    public Transaction setTag(Integer transactionId, Integer tagId) {
+        Transaction transaction = transactionRepository.findById(transactionId).orElse(null);
+        Tag tag = tagRepository.findById(tagId).orElse(null);
+
+        transaction.setTag(tag);
+        return transactionRepository.save(transaction);
+    }
+
     public void importTransactionsFromFile(MultipartFile file, Integer accountId) throws IOException {
         List<Transaction> transactions = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(file.getInputStream());
@@ -82,11 +101,12 @@ public class TransactionService {
         for (Row row : sheet) {
 
             String name = row.getCell(0).getStringCellValue();
-            LocalDate date = row.getCell(1).getLocalDateTimeCellValue().toLocalDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(row.getCell(1).getStringCellValue(), formatter);
             BigDecimal amount = BigDecimal.valueOf(row.getCell(2).getNumericCellValue());
             String type = row.getCell(3).getStringCellValue();
-
-            transactions.add(new Transaction(name ,amount, date,account, type));
+            System.out.println("type: " + type);
+            transactions.add(new Transaction(name ,amount,date ,account, type));
         }
         transactionRepository.saveAll(transactions);
         workbook.close();

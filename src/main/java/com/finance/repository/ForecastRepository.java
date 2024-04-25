@@ -13,5 +13,6 @@ import com.finance.model.Forecast;
 public interface ForecastRepository extends CrudRepository<Forecast, Integer> {
     Optional<Forecast> findById(Integer id);
     List<Forecast> findByAccount(Account account);
+    List<Forecast> findByAccountId(Long accountId);
 }
 

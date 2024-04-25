@@ -2,6 +2,7 @@ package com.finance.routes;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.finance.dtos.TransactionCreateDto;
+import com.finance.dtos.setTagDto;
 import com.finance.model.Transaction;
 import com.finance.service.TransactionService;
 
@@ -43,15 +45,32 @@ public class TransactionController {
         return ResponseEntity.ok(createdTransaction);
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("accountId") Integer accountId) {
+    @PostMapping("/tag")
+    public ResponseEntity<Transaction> tagTransaction(@RequestBody setTagDto object) {
+        Transaction taggedTransaction = transactionService.setTag(object.getTransactionId(), object.getTagId());
+
+        return ResponseEntity.ok(taggedTransaction);
+    }
+
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("accountId") Integer accountId) {
         try {
+            System.out.println("MARCHEEE");
+            // Assuming transactionService is correctly autowired and available
             transactionService.importTransactionsFromFile(file, accountId);
             return ResponseEntity.ok("File uploaded successfully!");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to upload file: " + e.getMessage());
+            // Log error details here to understand what went wrong
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file: " + e.getMessage());
         }
     }
 
-    
+    @GetMapping("/getfromtags")
+    public ResponseEntity<List<Transaction>> getTransactionsFromTags(@RequestParam("tag") Long tagId){
+        // get from query the account id
+        List<Transaction> transactions = transactionService.getTransactionFromTag(tagId);
+        return ResponseEntity.ok(transactions);
+    }
 }

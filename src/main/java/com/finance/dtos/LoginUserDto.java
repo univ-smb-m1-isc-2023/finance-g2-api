@@ -17,6 +17,11 @@ public class LoginUserDto {
     public String getPassword() {
         return password;
     }
+
+    public LoginUserDto setPassword(String password) {
+        this.password = password;
+        return this;
+    }
     
     
     // getters and setters here...

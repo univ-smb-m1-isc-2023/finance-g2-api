@@ -47,6 +47,10 @@ public class Forecast {
         return tag;
     }
 
+    public Long getTagId() {
+        return tag.getId();
+    }
+
     public void setTag(Tag tag) {
         this.tag = tag;
     }
