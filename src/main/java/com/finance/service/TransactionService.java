@@ -78,6 +78,13 @@ public class TransactionService {
         transactionRepository.deleteById(id);
     }
 
+    public List<Transaction> getTransactionFromTag(Long tagId) {
+        Tag tag = tagRepository.findById(tagId).orElse(null);
+        List<Transaction> transactions = transactionRepository.findByTag(tag);
+
+        return transactions;
+    }
+
     public Transaction setTag(Integer transactionId, Integer tagId) {
         Transaction transaction = transactionRepository.findById(transactionId).orElse(null);
         Tag tag = tagRepository.findById(tagId).orElse(null);

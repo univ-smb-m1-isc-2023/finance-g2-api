@@ -13,9 +13,11 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,21 +29,23 @@ import com.finance.service.AccountService;
 import com.finance.service.JwtService;
 import com.finance.model.Account;
 import com.finance.model.User;
+import com.finance.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finance.config.ApplicationConfiguration;
 import com.finance.dtos.AccountCreateDto;
-
+import com.finance.service.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(AccountController.class)
 public class AccountControllerTests {
 
-    @Autowired
     private MockMvc mockMvc;
-
+    
     @MockBean
     private AccountService accountService;
 
@@ -50,16 +54,40 @@ public class AccountControllerTests {
 
     @MockBean
     private SecurityContext securityContext;
-/
+
+    @MockBean
+    private JwtService jwtService;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+    @MockBean
+    private UserRepository userRepository;
+
     @BeforeEach
+    public void setUp() {
+        AccountService mockAccountService = mock(AccountService.class);
+        AccountController controller = new AccountController(mockAccountService);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    }
+
+
+    @Test
+    void savedUser() {
+      User user = new User("zaphod", "zaphod@mail.com");
+      User savedUser = userRepository.save(user);
+        assertThat(savedUser.getUsername()).isNotNull();
+    }
+
+
+    /*@BeforeEach
     void setUp() {
         when(jwtService.extractUsername(anyString())).thenReturn("user@example.com");
         when(jwtService.isTokenValid(anyString(), any())).thenReturn(true);
 
-        UserDetails userDetails = new User("user@example.com", "password", AuthorityUtils.createAuthorityList("ROLE_USER"));
+        UserDetails userDetails = new User("user@example.com", "password");
         when(userDetailsService.loadUserByUsername(anyString())).thenReturn(userDetails);
     }
-/* 
+
     @Test
     @WithMockUser
     void authenticatedUserAccounts() throws Exception {
@@ -134,4 +162,4 @@ public class AccountControllerTests {
     } 
 
 
-} */
+}*/

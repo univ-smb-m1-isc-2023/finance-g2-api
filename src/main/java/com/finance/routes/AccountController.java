@@ -24,6 +24,7 @@ public class AccountController {
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
+    
 
     @GetMapping("/me")
     public ResponseEntity<List<Account>> authenticatedUser() {

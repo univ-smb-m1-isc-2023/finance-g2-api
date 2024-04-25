@@ -30,8 +30,21 @@ public class User implements UserDetails{
         return List.of();
     }
 
+    public User() {
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public Integer getId() {
         return id;
+    }
+
+    public User setId(Integer id) {
+        this.id = id;
+        return this;
     }
 
     public String getPassword() {

@@ -67,5 +67,10 @@ public class TransactionController {
         }
     }
 
-    
+    @GetMapping("/getfromtags")
+    public ResponseEntity<List<Transaction>> getTransactionsFromTags(@RequestParam("tag") Long tagId){
+        // get from query the account id
+        List<Transaction> transactions = transactionService.getTransactionFromTag(tagId);
+        return ResponseEntity.ok(transactions);
+    }
 }
