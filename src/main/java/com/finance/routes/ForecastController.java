@@ -52,5 +52,12 @@ public class ForecastController {
             createdTransactions.forEach(result::add);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/getfromtags")
+    public ResponseEntity<List<Forecast>> getFromTags(@RequestParam("tag") Integer tags){
+        List<Forecast> forecasts = forecastService.getFromTags(tags);
+
+        return ResponseEntity.ok(forecasts);
+    }
     
 }
