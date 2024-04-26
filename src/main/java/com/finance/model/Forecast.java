@@ -21,10 +21,10 @@ public class Forecast {
     private Account account;
 
     @Column(name = "months", nullable = false)
-    private int month;
+    private int months;
 
     @Column(name = "years", nullable = false)
-    private int year;
+    private int years;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
@@ -56,19 +56,19 @@ public class Forecast {
     }
 
     public int getMonth() {
-        return month;
+        return months;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+    public void setMonth(int months) {
+        this.months = months;
     }
 
     public int getYear() {
-        return year;
+        return years;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setYear(int years) {
+        this.years = years;
     }
 
     public Account getAccount() {

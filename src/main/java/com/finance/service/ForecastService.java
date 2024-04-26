@@ -12,6 +12,7 @@ import com.finance.dtos.ForecastMultipleCreateDto;
 import com.finance.dtos.TransactionCreateDto;
 import com.finance.model.Account;
 import com.finance.model.Forecast;
+import com.finance.model.Tag;
 import com.finance.model.Transaction;
 import com.finance.repository.AccountRepository;
 import com.finance.repository.ForecastRepository;
@@ -59,9 +60,11 @@ public class ForecastService {
 
         accountRepository.findById(forecast.getAccount()).ifPresent(fore::setAccount);
         tagRepository.findById(forecast.getTag()).ifPresent(fore::setTag);
-
+        System.out.println(forecast.getAmount());
         fore.setAmount(forecast.getAmount());
+        System.out.println(forecast.getMonth());
         fore.setMonth(forecast.getMonth());
+        System.out.println(forecast.getYear());
         fore.setYear(forecast.getYear());
 
         fore.setType(forecast.getType());
@@ -95,6 +98,14 @@ public class ForecastService {
 
         return forecastRepository.saveAll(forecasts);
         
+    }
+
+    public List<Forecast> getFromTags(Integer tagid) {
+        Tag tag = tagRepository.findById(tagid).orElse(null);
+        List<Forecast> transactions = forecastRepository.findByTag(tag);
+
+        return transactions;
+
     }
 
 
